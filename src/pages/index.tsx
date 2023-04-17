@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function Home() {
   async function fData() {
-    const data = await Fetch("RegistroPelicula", "GET");
+    const data = await Fetch("RegistroPeliculas", "GET");
     console.log(data);
   }
 
