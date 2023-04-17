@@ -4,7 +4,6 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useRouter } from "next/router";
 
 import { toast, Toaster } from "react-hot-toast";
-import supa from "@/utils/supa";
 
 export type Users = {
   id: number;
@@ -27,11 +26,10 @@ export default function LoginPage(): ReactElement {
   async function doSmit(e: FormEvent) {
     e.preventDefault();
 
-    const { data } = await supa.from("usuario").select().eq("nombre", us.nombre);
 
-    const userExists = (data ?? []).filter(({ password }) => password === us.password);
+    // const userExists = (data ?? []).filter(({ password }) => password === us.password);
 
-    if (userExists.length > 0) {
+    if ([].length > 0) {
       toast.success("Credenciales correctas, se le redireccionara acontinuacion");
 
       setTimeout(() => push("/admin"), 5000);

@@ -1,6 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import supa from "@/utils/supa";
 import FormModal from "@/components/ui/FormModal";
 import NavbarAdmin from "@/components/ui/NavbarAdmin";
 
@@ -23,21 +22,20 @@ export default function AdminPage(): ReactElement {
   const [currentMov, setCurrentMov] = useState({} as Trailer);
 
   const getTrailers = async () => {
-    const { data } = await supa.from("trailer").select();
-    const manipuledData: Array<Trailer> = (data ?? []).map((x) => {
-      return {
-        Id: x.id,
-        Titulo: x.titulo,
-        Año: x["año"],
-        Director: x.director,
-        Actores: x.actores,
-        Resena: x.resena,
-        ImagenPortada: x.imagenportada,
-        LinkTrailer: x.linktrailer,
-      };
-    });
+    // const manipuledData: Array<Trailer> =  [].map((x) => {
+    //   return {
+    //     Id: x.id,
+    //     Titulo: x.titulo,
+    //     Año: x["año"],
+    //     Director: x.director,
+    //     Actores: x.actores,
+    //     Resena: x.resena,
+    //     ImagenPortada: x.imagenportada,
+    //     LinkTrailer: x.linktrailer,
+    //   };
+    // });
 
-    setSData(manipuledData);
+    setSData([]);
   };
 
   function editNumber(id: number) {
@@ -45,39 +43,9 @@ export default function AdminPage(): ReactElement {
     setIsModalOpen(!isModalOpen);
   }
 
-  async function deleteRow(id: number) {
-    const { data } = await supa.from("trailer").delete().eq("id", id).select();
-    setSData((_) => _.filter((x) => x.Id !== (data ?? [])[0].id));
-  }
+  async function deleteRow(id: number) {}
 
   async function addRow(userData: Trailer): Promise<void> {
-    if (!sdata.map((x) => x.Id).includes(userData.Id)) {
-      await supa.from("trailer").insert({
-        id: sdata.length + 2,
-        titulo: userData.Titulo,
-        año: userData["Año"],
-        director: userData.Director,
-        actores: userData.Actores,
-        resena: userData.Resena,
-        imagenportada: userData.ImagenPortada,
-        linktrailer: userData.LinkTrailer,
-      });
-    } else {
-      await supa
-        .from("trailer")
-        .update({
-          id: userData.Id,
-          titulo: userData.Titulo,
-          año: userData["Año"],
-          director: userData.Director,
-          actores: userData.Actores,
-          resena: userData.Resena,
-          imagenportada: userData.ImagenPortada,
-          linktrailer: userData.LinkTrailer,
-        })
-        .eq("id", userData.Id);
-    }
-
     getTrailers();
     setIsModalOpen(false);
   }
