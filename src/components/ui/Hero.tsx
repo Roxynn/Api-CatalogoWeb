@@ -41,7 +41,7 @@ export default function Hero(): ReactElement {
           Busca tus peliculas favoritas.
         </h1>
 
-        <div className="w-full max-w-sm mx-auto mt-6 bg-transparent border rounded-md focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 focus-within:ring-opacity-40 dark:border-gray-700 dark:focus-within:border-blue-300">
+        {/* <div className="w-full max-w-sm mx-auto mt-6 bg-transparent border rounded-md focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 focus-within:ring-opacity-40 dark:border-gray-700 dark:focus-within:border-blue-300">
           <form className="flex flex-col md:flex-row" onSubmit={(e) => goSearch(e)}>
             <input
               placeholder="Titulo de la pelicula"
@@ -56,7 +56,7 @@ export default function Hero(): ReactElement {
               Buscar
             </button>
           </form>
-        </div>
+        </div> */}
       </div>
 
       <div className="max-w-screen-xl mx-auto mt-28">
