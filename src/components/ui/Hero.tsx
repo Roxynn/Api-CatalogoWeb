@@ -1,11 +1,15 @@
 import { FormEvent, ReactElement, useEffect, useState } from "react";
-import { Trailer } from "@/pages/admin";
 import Modal from "./Modal";
+import { Fetch, Poster } from "@/utils";
+
+export function byteaToSrc(_Poster: string): string | undefined {
+  return "";
+}
 
 export default function Hero(): ReactElement {
   const [searchWord, setSearchWord] = useState("Ts" as string);
-  const [trailers, setTrailers] = useState([] as Array<Trailer>);
-  const [baseTrailers, setBaseTrailers] = useState([] as Array<Trailer>);
+  const [trailers, setTrailers] = useState([] as Array<Poster>);
+  const [baseTrailers, setBaseTrailers] = useState([] as Array<Poster>);
   const [isModalOpen, setIsModalOpen] = useState(false as boolean);
   const [videoSrc, setVideoSrc] = useState("" as string);
   const [selectedText, setSelectedText] = useState("" as string);
@@ -13,40 +17,28 @@ export default function Hero(): ReactElement {
   async function goSearch(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const manipuledData: Array<Trailer> = baseTrailers.filter((x) =>
+    const manipuledData: Array<Poster> = baseTrailers.filter((x) =>
       x.Titulo.toLowerCase().includes(searchWord.toLowerCase())
     );
 
     setTrailers(manipuledData);
   }
 
-  async function fetchTrailers() {
-    const manipuledData: Array<Trailer> =  [].map((x) => {
-      return {
-        Id: x.id,
-        Titulo: x.titulo,
-        Año: x["año"],
-        Director: x.director,
-        Actores: x.actores,
-        Resena: x.resena,
-        ImagenPortada: x.imagenportada,
-        LinkTrailer: x.linktrailer,
-      };
-    });
-
-    setTrailers(manipuledData);
-    setBaseTrailers(manipuledData);
+  async function fData() {
+    const data: Array<Poster> = await (await Fetch("dummy", "GET")).json();
+    setBaseTrailers(data);
+    setTrailers(data);
   }
 
   useEffect(() => {
-    fetchTrailers();
+    fData();
   }, []);
 
   return (
     <div className="container px-6 py-16 mx-auto text-center pt-28">
       <div className="max-w-lg mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white md:text-4xl">
-          Busca los trailers de tus peliculas favoritas.
+          Busca tus peliculas favoritas.
         </h1>
 
         <div className="w-full max-w-sm mx-auto mt-6 bg-transparent border rounded-md focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 focus-within:ring-opacity-40 dark:border-gray-700 dark:focus-within:border-blue-300">
@@ -79,29 +71,22 @@ export default function Hero(): ReactElement {
                   <img
                     alt="Placeholder"
                     className="block w-full h-auto text-white"
-                    src={x.ImagenPortada}
+                    src={byteaToSrc(x.Poster)}
                   />
 
                   <header className="flex items-center justify-between p-2 leading-tight md:p-4">
                     <h1 className="text-lg">
-                      <h2
-                        className="text-white no-underline hover:underline"
-                        onClick={() => {
-                          setVideoSrc(x.LinkTrailer);
-                          setIsModalOpen(!isModalOpen);
-                          setSelectedText(x.Resena);
-                        }}
-                      >
+                      <h2 className="text-white no-underline hover:underline">
                         {x.Titulo}
                       </h2>
                     </h1>
-                    <p className="text-sm text-white">{x.Año}</p>
+                    <p className="text-sm text-white">{x.Año.toString()}</p>
                   </header>
 
                   <footer className="flex items-center justify-between p-2 leading-none md:p-4">
                     <p className="ml-2 text-sm text-white">Director : {x.Director}</p>
                     <br />
-                    <p className="ml-2 text-sm text-white">Actores : {x.Actores}</p>
+                    <p className="ml-2 text-sm text-white">Genero : {x.Genero}</p>
                   </footer>
                 </article>
               </div>

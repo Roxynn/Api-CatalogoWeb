@@ -4,6 +4,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useRouter } from "next/router";
 
 import { toast, Toaster } from "react-hot-toast";
+import { Fetch } from "@/utils";
 
 export type Users = {
   id: number;
@@ -25,18 +26,17 @@ export default function LoginPage(): ReactElement {
 
   async function doSmit(e: FormEvent) {
     e.preventDefault();
+    
+    const { isValid } = await (await Fetch("log", "POST", JSON.stringify(us))).json();
 
-
-    // const userExists = (data ?? []).filter(({ password }) => password === us.password);
-
-    if ([].length > 0) {
+    if (isValid) {
       toast.success("Credenciales correctas, se le redireccionara acontinuacion");
 
-      setTimeout(() => push("/admin"), 5000);
-      localStorage.setItem("IsAdmin", "true");
+      setTimeout(() => push("/user"), 5000);
+      localStorage.setItem("IsUser", JSON.stringify({ user: us, isValid }));
     } else {
       toast.error("Las credenciales provistas no son las correspondientes");
-      localStorage.setItem("IsAdmin", "false");
+      localStorage.setItem("IsUser", JSON.stringify({ user: us, isValid }));
     }
   }
 
@@ -46,18 +46,6 @@ export default function LoginPage(): ReactElement {
 
       <div className="items-center justify-around hidden w-full bg-black lg:flex lg:w-1/2">
         <div className="inset-0 z-0 bg-black opacity-20" />
-        <div className="flex-col items-center w-full px-20 mx-auto space-y-6">
-          <h1 className="font-sans text-4xl font-bold text-white">Simple App</h1>
-          <p className="mt-1 text-white">The simplest app to use</p>
-          <div className="flex justify-center mt-6 lg:justify-start">
-            <a
-              href="#"
-              className="px-4 py-2 mt-4 mb-2 font-bold text-indigo-800 transition-all duration-500 bg-white hover:bg-indigo-700 hover:text-white hover:-translate-y-1 rounded-2xl"
-            >
-              Get Started
-            </a>
-          </div>
-        </div>
       </div>
 
       {/* Derecha */}
