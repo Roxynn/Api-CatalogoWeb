@@ -22,6 +22,12 @@ export default function Navbar(): ReactElement {
         >
           Login
         </Link>
+        <Link
+          className="block h-10 px-5 py-2 mt-4 text-sm text-center text-gray-700 capitalize transition-colors duration-300 transform border rounded-md hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 lg:mt-0 lg:w-auto"
+          href="/login"
+        >
+          Register
+        </Link>
       </div>
     </nav>
   );
